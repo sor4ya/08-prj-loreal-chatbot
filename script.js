@@ -3,6 +3,9 @@ const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 
+const worker_url =
+  "https://loreal-chatbot-worker.sorayazapatarocha.workers.dev/";
+
 // Set initial welcome message
 chatWindow.innerHTML =
   '<div class="msg ai">👋 Hello! How can I help you today?</div>';
@@ -76,11 +79,8 @@ chatForm.addEventListener("submit", async (e) => {
 
   // Call OpenAI API
   try {
-    // Replace this URL with your Cloudflare Worker endpoint or OpenAI endpoint
-    const apiUrl = "https://api.openai.com/v1/chat/completions";
-
-    // If using secrets.js, get the API key
-    let apiKey = typeof OPENAI_API_KEY !== "undefined" ? OPENAI_API_KEY : "";
+    // Use the deployed Cloudflare Worker endpoint
+    const apiUrl = worker_url;
 
     // Prepare the request body
     const body = {
@@ -94,7 +94,6 @@ chatForm.addEventListener("submit", async (e) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
       },
       body: JSON.stringify(body),
     });
