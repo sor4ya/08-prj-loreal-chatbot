@@ -137,6 +137,7 @@ body {
 }
 
 .chat-window {
+  font-family: "Ubuntu Sans Mono", monospace;
   height: 360px;
   border: 2px solid #e3a535; /* L'Oréal Eternal Gold border */
   border-radius: 8px;
@@ -176,8 +177,8 @@ body {
   color: #000000; /* L'Oréal Iconic Black */
   background: linear-gradient(
     135deg,
-    #e3a535,
-    #d4941a
+    #cccac7,
+    #c0bebc
   ); /* L'Oréal Eternal Gold gradient */
   margin-right: 20%;
 }
