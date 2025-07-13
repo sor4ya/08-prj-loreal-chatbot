@@ -1,3 +1,11 @@
+/*
+  Brand Colors: 
+  - Iconic Black: #000000
+  - Radiant White: #FFFFFF
+  - Passionate Red: #FF003B
+  - Eternal Gold: #E3A535
+*/
+
 /* —— basic reset —— */
 * {
   box-sizing: border-box;
@@ -7,10 +15,16 @@
 
 /* —— body + fonts —— */
 body {
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  font-family: "Montserrat", "Ubuntu Sans Mono", Arial, Helvetica, sans-serif;
+  color: #000000; /* L'Oréal Iconic Black */
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #f8f8f8 100%
+  ); /* Subtle gradient using Radiant White */
   display: flex;
   justify-content: center;
+  min-height: 100vh;
 }
 
 .page-wrapper {
@@ -18,46 +32,154 @@ body {
   max-width: 900px;
 }
 
-/* header */
+/* Make header full width */
 .site-header {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   text-align: center;
-  padding-top: 50px;
+  padding: 30px 0;
+  /* Enhanced gold gradient background with shine effect */
+  background: linear-gradient(
+    135deg,
+    #d4941a,
+    #e3a535,
+    #f2b94f,
+    #e3a535,
+    #d4941a
+  );
+  background-size: 300% 100%;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  /* Subtle pulsing animation */
+  animation: goldGlow 4s ease-in-out infinite;
+}
+
+/* Animated shine overlay effect */
+.site-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  /* Diagonal shine effect */
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.6) 55%,
+    rgba(255, 255, 255, 0.3) 60%,
+    transparent 70%,
+    transparent 100%
+  );
+  /* Moving shine animation */
+  animation: shine 3s ease-in-out infinite;
+}
+
+/* Keyframe for the gold glow effect */
+@keyframes goldGlow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    box-shadow: 0 0 20px rgba(227, 165, 53, 0.3);
+  }
+  50% {
+    background-position: 100% 50%;
+    box-shadow: 0 0 30px rgba(227, 165, 53, 0.5);
+  }
+}
+
+/* Keyframe for the shine effect */
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.logo {
+  height: 60px;
+  width: auto;
+  /* Add subtle hover and glow effects */
+  transition: transform 0.3s ease, filter 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+/* Logo hover effect */
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .site-title {
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #000000; /* L'Oréal Iconic Black */
+  text-align: center;
+  display: block;
+  width: 100%;
+  padding-bottom: 15px;
+  text-shadow: 1px 1px 2px rgba(227, 165, 53, 0.1); /* Subtle gold shadow */
 }
 
 /* chat window */
 .chatbox {
-  margin: 40px 0;
+  margin: 0 0 40px 0;
 }
 
 .chat-window {
   height: 360px;
-  border: 1px solid #000;
+  border: 2px solid #e3a535; /* L'Oréal Eternal Gold border */
+  border-radius: 8px;
   padding: 20px;
   font-size: 18px;
   line-height: 1.5;
   overflow-y: auto;
-  background: #fafafa;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #fefefe 100%
+  ); /* L'Oréal Radiant White gradient */
   white-space: pre-line;
+  box-shadow: 0 4px 15px rgba(227, 165, 53, 0.1); /* Subtle gold shadow */
 }
 
 /* messages */
 .msg {
   margin-bottom: 14px;
   line-height: 1.5;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 
 .msg.user {
-  color: #000;
+  color: #ffffff; /* L'Oréal Radiant White text */
+  background: linear-gradient(
+    135deg,
+    #ff003b,
+    #e60035
+  ); /* L'Oréal Passionate Red gradient */
+  margin-left: 20%;
+  text-align: right;
 }
 
 .msg.ai {
-  color: #666666;
+  color: #000000; /* L'Oréal Iconic Black */
+  background: linear-gradient(
+    135deg,
+    #e3a535,
+    #d4941a
+  ); /* L'Oréal Eternal Gold gradient */
+  margin-right: 20%;
 }
 
 /* input row */
@@ -70,20 +192,30 @@ body {
 .chat-form input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 2px solid #e3a535; /* L'Oréal Eternal Gold border */
+  border-radius: 6px;
   font-size: 18px;
+  background: #ffffff; /* L'Oréal Radiant White */
+  color: #000000; /* L'Oréal Iconic Black */
+  transition: all 0.3s ease;
 }
 
 .chat-form input:focus {
-  outline: 2px solid #000;
-  outline-offset: 2px;
+  outline: none;
+  border-color: #ff003b; /* L'Oréal Passionate Red on focus */
+  box-shadow: 0 0 0 3px rgba(255, 0, 59, 0.1);
 }
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
-  color: #fff;
+  background: linear-gradient(
+    135deg,
+    #ff003b,
+    #e60035
+  ); /* L'Oréal Passionate Red gradient */
+  color: #ffffff; /* L'Oréal Radiant White */
   border: none;
+  border-radius: 6px;
   padding: 12px;
   width: 48px;
   height: 48px;
@@ -91,7 +223,8 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 0, 59, 0.2);
 }
 
 .chat-form button .material-icons {
@@ -99,12 +232,14 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: linear-gradient(135deg, #e60035, #cc0030);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 0, 59, 0.3);
 }
 
 .chat-form button:focus {
-  outline: 2px solid #000;
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 0, 59, 0.3);
 }
 
 /* visually hidden */
@@ -125,7 +260,10 @@ body {
   margin: 60px 0 40px;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: #000000; /* L'Oréal Iconic Black */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(227, 165, 53, 0.2);
 }
 
 .site-footer nav {
@@ -134,10 +272,13 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: #000000; /* L'Oréal Iconic Black */
   text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: #ff003b; /* L'Oréal Passionate Red on hover */
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 }
