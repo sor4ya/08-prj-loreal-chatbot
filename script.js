@@ -6,18 +6,44 @@ const chatWindow = document.getElementById("chatWindow");
 const worker_url =
   "https://loreal-chatbot-worker.sorayazapatarocha.workers.dev/";
 
-// Set initial welcome message
-chatWindow.innerHTML =
-  '<div class="msg ai">👋 Hello! How can I help you today?</div>';
+// Track user's name and current question
+let userName = "";
+let currentQuestion = "";
 
 // Store chat history as an array of messages
-let messages = [
-  {
-    role: "system",
-    content:
-      "You are a helpful assistant for L’Oréal. Only answer questions related to L’Oréal products, beauty routines, and product recommendations. If a question is not about L’Oréal products or beauty advice, politely respond that you can only assist with L’Oréal-related topics.",
-  },
-];
+let messages = [];
+
+// Function to set the system prompt, including user's name if available
+function setSystemPrompt() {
+  let basePrompt =
+    "You are a helpful assistant for L’Oréal. Only answer questions related to L’Oréal products, beauty routines, and product recommendations. If a question is not about L’Oréal products or beauty advice, politely respond that you can only assist with L’Oréal-related topics.";
+  if (userName) {
+    basePrompt += ` The user's name is ${userName}. Use their name in your responses when appropriate. Remember the user's previous questions to provide context-aware, natural, multi-turn answers.`;
+  } else {
+    basePrompt +=
+      " Ask for the user's name if you don't know it yet, and use it in your responses once provided.";
+  }
+  // Always keep system prompt as the first message
+  if (messages.length === 0 || messages[0].role !== "system") {
+    messages.unshift({ role: "system", content: basePrompt });
+  } else {
+    messages[0].content = basePrompt;
+  }
+}
+
+// Initial greeting: ask for name if not set
+function showInitialGreeting() {
+  if (!userName) {
+    chatWindow.innerHTML =
+      '<div class="msg ai">👋 Hi! What is your name?</div>';
+  } else {
+    chatWindow.innerHTML = `<div class="msg ai">👋 Hello, ${userName}! How can I help you today?</div>`;
+  }
+}
+
+// On page load, show greeting and set system prompt
+setSystemPrompt();
+showInitialGreeting();
 
 // Function to add a message to the chat window
 // Simple markdown to HTML converter for basic formatting
@@ -59,7 +85,29 @@ function addMessage(text, sender) {
   chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
 }
 
+// Function to display the current question above the response area
+function displayCurrentQuestion() {
+  // Remove any existing current question display
+  const existingQuestion = document.getElementById("current-question");
+  if (existingQuestion) {
+    existingQuestion.remove();
+  }
+
+  // Only show if there's a current question and user has provided their name
+  if (currentQuestion && userName) {
+    const questionDiv = document.createElement("div");
+    questionDiv.id = "current-question";
+    questionDiv.className = "current-question";
+    questionDiv.innerHTML = `<strong>Your question:</strong> ${currentQuestion}`;
+
+    // Insert above the chat window
+    const chatbox = document.querySelector(".chatbox");
+    chatbox.insertBefore(questionDiv, chatbox.firstChild);
+  }
+}
+
 // Handle form submit
+
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -68,11 +116,25 @@ chatForm.addEventListener("submit", async (e) => {
   if (!userText) return;
   userInput.value = "";
 
+  // If we don't have the user's name yet, treat the first input as their name
+  if (!userName) {
+    userName = userText;
+    setSystemPrompt();
+    // Show personalized greeting
+    chatWindow.innerHTML = `<div class="msg ai">👋 Hello, ${userName}! How can I help you today?</div>`;
+    return;
+  }
+
+  // Set the current question for display
+  currentQuestion = userText;
+  displayCurrentQuestion();
+
   // Add user message to chat window
   addMessage(userText, "user");
 
   // Add user message to messages array
   messages.push({ role: "user", content: userText });
+  setSystemPrompt(); // Update system prompt with latest context
 
   // Show loading message
   addMessage("Thinking...", "ai");

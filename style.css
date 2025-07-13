@@ -136,6 +136,23 @@ body {
   margin: 0 0 40px 0;
 }
 
+/* Current question display */
+.current-question {
+  background: linear-gradient(
+    135deg,
+    #e3a535,
+    #d4941a
+  ); /* L'Oréal Eternal Gold gradient */
+  color: #000000; /* L'Oréal Iconic Black */
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(227, 165, 53, 0.2);
+  border-left: 4px solid #ff003b; /* L'Oréal Passionate Red accent */
+}
+
 .chat-window {
   font-family: "Ubuntu Sans Mono", monospace;
   height: 360px;
